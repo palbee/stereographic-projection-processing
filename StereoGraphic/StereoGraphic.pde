@@ -1,12 +1,11 @@
 PImage img;
-Projection proj = new Projection(0, 0, 50);
+Projection proj = new Projection(0, 0, 80);
 float phi_input;
 float lambda_input;
 float auto_phi;
 float auto_lambda;
 boolean mouse_driven = true;
 boolean grid = true;
-
 float map_data[][] = null;
 
 void keyPressed() {
@@ -25,8 +24,9 @@ void keyPressed() {
     break;
   }
 }
+
 void setup() {
-  size(721, 721);
+  size(1024, 1024);
   phi_input = height/2.0;
   lambda_input = width/2.0;
   img = loadImage("range_image.png");
@@ -101,7 +101,7 @@ void draw() {
   if (grid) {
     render_grid();
   } else {
-    render_range();
+    render_map();
   }
   phi_label = String.format("Phi = %.3f", phi_input);
   lambda_label = String.format("Lambda = %.3f", lambda_input);
