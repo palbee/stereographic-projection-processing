@@ -45,11 +45,11 @@ public class Projection {
   public float phi(float x, float y) {
     float rho = this._rho(x, y);
     float c = this._c(x, y); 
-    float partial = ((y*sin(c)*cos(this.phi_prime))/rho));
+    float partial = ((y*sin(c)*cos(this.phi_prime))/rho);
     if(Float.isNaN(partial)){
-      return asin(cos(c) * sin(this.phi_prime);
+      return asin(cos(c) * sin(this.phi_prime));
     } else {
-      return asin(cos(c) * sin(this.phi_prime) + partial;
+      return asin(cos(c) * sin(this.phi_prime) + partial);
     }
   }
 
