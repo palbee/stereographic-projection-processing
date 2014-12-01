@@ -1,4 +1,4 @@
-void render_range() {
+void render_range_smooth() {
   float phi, lambda;
   for (float x = -width/2; x < width/2; x++) {
     for (float y = -height/2; y < height/2; y++) {
@@ -19,10 +19,23 @@ void render_range() {
       red(f00)  *(1-xprime)*(1-yprime)+  red(f10)*xprime*(1-yprime)+  red(f01)*(1-xprime)*yprime+  red(f11)*xprime*yprime, 
       green(f00)*(1-xprime)*(1-yprime)+green(f10)*xprime*(1-yprime)+green(f01)*(1-xprime)*yprime+green(f11)*xprime*yprime, 
       blue(f00) *(1-xprime)*(1-yprime)+ blue(f10)*xprime*(1-yprime)+ blue(f01)*(1-xprime)*yprime+ blue(f11)*xprime*yprime);
-      if(result == color(0,0,0)){
-        println(x,y,hex(f00),hex(f01),hex(f10),hex(f11),hex(result),phi,lambda);
-      }
       stroke(result);
+      point(x + width/2, y + height/2);
+    }
+  }
+}
+
+void render_range_fast() {
+  float phi, lambda;
+  for (float x = -width/2; x < width/2; x++) {
+    for (float y = -height/2; y < height/2; y++) {
+      phi = clean_angle(degrees(proj.phi(x, y)));
+      lambda = clean_angle(degrees(proj.lambda(x, y)));
+
+      int lx = int(map(lambda, 0, 359, 0, img.width-1));
+      int ly = int(map(phi, 0, 359, 0, img.height-1));
+      color f00 = img.get(lx, ly);
+      stroke(f00);
       point(x + width/2, y + height/2);
     }
   }
