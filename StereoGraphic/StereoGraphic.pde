@@ -7,6 +7,7 @@ float auto_lambda;
 boolean mouse_driven = true;
 boolean grid = true;
 
+float map_data[][] = null;
 
 void keyPressed() {
   switch(key) {
@@ -29,6 +30,7 @@ void setup() {
   phi_input = height/2.0;
   lambda_input = width/2.0;
   img = loadImage("range_image.png");
+  map_data = load_map_data();
 }
 
 color angle_color(float phi, float lambda) {
