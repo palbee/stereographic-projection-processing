@@ -68,7 +68,15 @@ int clean_angle(int angle) {
   }
   return angle;
 }
-
+void mouseDragged() 
+{  
+  if (mouse_driven) {
+    phi_input += map(pmouseY - mouseY, 0, height -1, 0, TWO_PI);
+    lambda_input += map(mouseX - pmouseX, 0, width -1, 0, TWO_PI);
+    phi_input = clean_angle_radians(phi_input); 
+    lambda_input = clean_angle_radians(lambda_input);
+  }
+}
 
 void draw() {
   String phi_label;
@@ -78,8 +86,6 @@ void draw() {
   background(0);
   noFill();
   if (mouse_driven) {
-    phi_input = map(mouseY, 0, height -1, 0, TWO_PI);
-    lambda_input = map(mouseX, 0, width -1, 0, TWO_PI);
   } else {
     auto_phi = auto_phi + 5;
     if (auto_phi >= height) {
