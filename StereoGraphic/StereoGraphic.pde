@@ -62,6 +62,8 @@ int clean_angle(int angle) {
 
 
 void draw() {
+  String phi_label;
+  String lambda_label;
   float phi;
   float lambda;
   background(0);
@@ -86,6 +88,12 @@ void draw() {
   } else {
     render_range();
   }
+  phi_label = String.format("Phi = %.3f", phi_input);
+  lambda_label = String.format("Lambda = %.3f", lambda_input);
+  textAlign(LEFT);
+  text(phi_label, 10,20);
+  text(lambda_label, 10,40);
+  
 }
 
 
