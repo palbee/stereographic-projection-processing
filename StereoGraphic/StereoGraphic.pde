@@ -1,7 +1,8 @@
 PImage img;
-Projection proj = new Projection(0, 0, 80);
-float phi_input;
-float lambda_input;
+float phi_input=0;
+float lambda_input=0;
+float r_input = 80;
+Projection proj = new Projection(phi_input, lambda_input, r_input);
 float auto_phi;
 float auto_lambda;
 boolean mouse_driven = true;
@@ -14,6 +15,9 @@ final int SMOOTH_RANGE = 2;
 final int FAST_RANGE = 3;
 final int SPIRAL = 4;
 int projection_mode = GRID;
+boolean show_help = false;
+int help_expire_time = 0;
+final String HELP_TEXT="\nA: auto\nG: grid\nM: map\nR: range image fast\nS: range image smooth\nC: curve\n+/-: increase/decrease R\n0: Zero phi and lambda\n<ESC>, Q: quit\n?: help";
 
 void keyPressed() {
   switch(key) {
@@ -48,6 +52,31 @@ void keyPressed() {
   case 'c':
     projection_mode = SPIRAL;
     break;
+  case 'Q':
+  case 'q':
+    exit();
+    break;
+  case '-':
+    if (r_input > 1) {
+      r_input--;
+      proj.setR(r_input);
+    }
+    break;
+  case '+':
+    if (r_input < 1000) {
+      r_input++;
+      proj.setR(r_input);
+    }
+    break;
+  case '0':
+    phi_input = 0.0;
+    lambda_input = 0.0;
+    break;
+
+  case '?':
+    show_help = !show_help;
+    help_expire_time = millis() + 10000;
+    break;
   }
 
   dirty = true;
@@ -55,8 +84,8 @@ void keyPressed() {
 
 void setup() {
   size(1024, 768);
-  phi_input = height/2.0;
-  lambda_input = width/2.0;
+  phi_input = 0;
+  lambda_input = 0;
   img = loadImage("range_image.png");
   map_data = load_map_data();
 }
@@ -112,8 +141,7 @@ void mouseDragged()
 }
 
 void draw() {
-  String phi_label;
-  String lambda_label;
+  String label;
   float phi;
   float lambda;
   if (mouse_driven) {
@@ -126,6 +154,11 @@ void draw() {
     }
     phi_input = map(auto_phi, 0, height -1, 0, TWO_PI);
     lambda_input = map(auto_lambda, 0, width -1, 0, TWO_PI);
+  }
+
+  if (show_help &&  millis() > help_expire_time) {
+    show_help = false;
+    dirty = true;
   }
 
   if (dirty) {
@@ -152,11 +185,14 @@ void draw() {
     default:
       render_grid();
     }
-    phi_label = String.format("Phi = %.3f", phi_input);
-    lambda_label = String.format("Lambda = %.3f", lambda_input);
+    label = String.format("Phi = %.3f\nLambda = %.3f\nR = %f", phi_input, lambda_input, r_input);
+    if (show_help) {
+      label = String.format("%s%s", label, HELP_TEXT);
+    } 
     textAlign(LEFT);
-    text(phi_label, 10, 20);
-    text(lambda_label, 10, 40);
+    fill(255);
+    text(label, 10, 20);
+      
     dirty = false;
   }
 }
