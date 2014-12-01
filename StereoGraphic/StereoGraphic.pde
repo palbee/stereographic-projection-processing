@@ -49,6 +49,15 @@ float clean_angle(float angle) {
   };
   return angle;
 }
+float clean_angle_radians(float angle) {
+  while (angle < 0) {
+    angle += TWO_PI;
+  };
+  while (angle >= TWO_PI) {
+    angle -= TWO_PI;
+  };
+  return angle;
+}
 
 int clean_angle(int angle) {
   while (angle < 0) {
