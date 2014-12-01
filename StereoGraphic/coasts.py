@@ -113320,22 +113320,27 @@ data = """
 
 1 -21 30, 39 50
 """
+
 all_data = []
 collected_data = []
+last_latitude = None
+last_longitude = None
+first_line = False
 for line in data.splitlines():
     if line == "\f":
         if len(collected_data) > 0:
             all_data.append(collected_data)
             collected_data = []
+            first_line = True
     else:
         line = line.strip()
         level = line.split()[0]
-        if level in ('1','2','3','4'):
+        if level in ('1', '2', '3', '4,'):
             continue
         parts = line.split()[1:]
-        if parts[0].endswith(","):
-            latitude = float(parts[0][:-1])
-        else:
+        if parts[0].endswith(","):  # Deals with deg, deg min
+            latitude = float(parts[0][:-1]) 
+        else:  # Deals with deg min, 
             latitude = float(parts[0]) + float(parts[1][:-1])/60.0
         parts = line.split(',')[1].strip().split(' ')
         if len(parts) == 1:
@@ -113343,6 +113348,9 @@ for line in data.splitlines():
         else:
             longitude = float(parts[0]) +float(parts[1])/60.0
         collected_data.append("{0:0.3f},{1:0.3f}\n".format(latitude, longitude))
+        last_latitude = latitude
+        last_longitude = longitude
+        
 if len(all_data) > 0:
     result = open("data/coasts.csv", "w")
     result.write("{},sets\n".format(len(all_data)))
