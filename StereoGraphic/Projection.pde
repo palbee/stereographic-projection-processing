@@ -18,7 +18,10 @@ public class Projection {
   public void setLambdaPrime(float lambda){
    this.lambda_prime = lambda;
   }
-  
+   public void setR(float R){
+   this.R = R;
+  }
+
   private float _k(float phi, float lambda) {
     return (2.0 * this.R)/(1.0+sin(this.phi_prime)*sin(phi)+cos(this.phi_prime)*cos(phi)*cos(lambda - this.lambda_prime));
   }  
