@@ -9,7 +9,6 @@ void render_map() {
       lambda = radians(-map_data[i][j+1]);
       stroke(angle_color(phi, lambda));      
       vertex(proj.x(phi, lambda)+width/2, proj.y(phi, lambda)+height/2);
-      //      vertex(map(phi, -PI, PI, 0, height-1), map(lambda, -PI, PI, 0, width-1));
     }  
     endShape(OPEN);
   }
