@@ -113335,7 +113335,7 @@ for line in data.splitlines():
     else:
         line = line.strip()
         level = line.split()[0]
-        if level in ('1', '2', '3', '4,'):
+        if level not in ('5'):
             continue
         parts = line.split()[1:]
         if parts[0].endswith(","):  # Deals with deg, deg min
@@ -113350,7 +113350,7 @@ for line in data.splitlines():
         collected_data.append("{0:0.3f},{1:0.3f}\n".format(latitude, longitude))
         last_latitude = latitude
         last_longitude = longitude
-        
+            
 if len(all_data) > 0:
     result = open("data/coasts.csv", "w")
     result.write("{},sets\n".format(len(all_data)))
