@@ -147,11 +147,8 @@ void draw() {
   if (mouse_driven) {
   } else {
     dirty = true;
-    auto_phi = auto_phi + 5;
-    if (auto_phi >= height) {
-      auto_phi %= height;
-      auto_lambda = (auto_lambda + 5) % width;
-    }
+    auto_phi = (auto_phi + 3) % height;
+    auto_lambda = (auto_lambda + 2) % width;
     phi_input = map(auto_phi, 0, height -1, 0, TWO_PI);
     lambda_input = map(auto_lambda, 0, width -1, 0, TWO_PI);
   }
@@ -162,7 +159,7 @@ void draw() {
   }
 
   if (dirty) {
-    background(0);
+    background(0, 90);
     noFill();
     proj.setPhiPrime(phi_input);
     proj.setLambdaPrime(lambda_input);
@@ -192,8 +189,17 @@ void draw() {
     textAlign(LEFT);
     fill(255);
     text(label, 10, 20);
-      
     dirty = false;
+    
+    pushStyle();
+    strokeWeight(25);
+    strokeCap(SQUARE);
+    noFill();
+    stroke(125,0,0);
+    arc(width-100.0, height-100.0, 75.0, 75.0, phi_input - 0.1, phi_input + 0.1);
+    stroke(0, 125, 0);
+    arc(width-100.0, height-100.0, 25.0,25.0, lambda_input - 0.1, lambda_input + 0.1);
+popStyle();
   }
 }
 
